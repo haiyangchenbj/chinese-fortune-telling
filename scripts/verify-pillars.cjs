@@ -12,10 +12,11 @@
  *
  * 用法
  *   node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --longitude 120.16
- *   node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --city 杭州
+ *   node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --city 北京
  *   node verify-pillars.cjs shishen --pillars "庚辰 辛巳 癸酉 己未"
- *   node verify-pillars.cjs hour-scan --solar "2000-05-15T14:30:00" --gender 1
- *   node verify-pillars.cjs compare --solar "2000-05-15T14:30:00" --gender 1 --claim "庚辰 辛巳 癸酉 己未"
+ *   node verify-pillars.cjs wuxing  --pillars "庚辰 辛巳 癸酉 己未"
+ *   node verify-pillars.cjs hour-scan --solar "2000-05-15T14:34:17" --gender 1
+ *   node verify-pillars.cjs compare --solar "2000-05-15T14:34:17" --gender 1 --claim "庚辰 辛巳 癸酉 己未"
  *
  * 时辰口径说明
  *   sect 1 = 23:00–23:59 的日柱取**次日**（夜子时进位派）
@@ -48,12 +49,22 @@ const DST_WINDOWS = [
 ];
 
 const TEN_GODS = ['比肩', '劫财', '食神', '伤官', '偏财', '正财', '七杀', '正官', '偏印', '正印'];
+const ELEMENTS = ['木', '火', '土', '金', '水'];
+const STEM_ELEMENTS = {
+  甲: '木', 乙: '木', 丙: '火', 丁: '火', 戊: '土', 己: '土',
+  庚: '金', 辛: '金', 壬: '水', 癸: '水',
+};
+const BRANCH_ELEMENTS = {
+  子: '水', 丑: '土', 寅: '木', 卯: '木', 辰: '土', 巳: '火',
+  午: '火', 未: '土', 申: '金', 酉: '金', 戌: '土', 亥: '水',
+};
 
 const USAGE = `verify-pillars.cjs — 四柱交叉校验工具
 
 用法:
   node verify-pillars.cjs true-solar --beijing <时间> (--longitude <经度> | --city <城市>)
   node verify-pillars.cjs shishen   --pillars "<年柱> <月柱> <日柱> <时柱>"
+  node verify-pillars.cjs wuxing   --pillars "<年柱> <月柱> <日柱> <时柱>"
   node verify-pillars.cjs hour-scan --solar <时间> [--gender 1|0] [--sect 1|2]
   node verify-pillars.cjs compare   --solar <时间> [--gender 1|0] [--sect 1|2] --claim "<四柱>"
 
@@ -62,8 +73,8 @@ const USAGE = `verify-pillars.cjs — 四柱交叉校验工具
 --sect    1=夜子时进位  2=不进位（默认）
 
 示例:
-  node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --longitude 120.16
-  node verify-pillars.cjs hour-scan --solar "2000-05-15T14:30:00" --gender 1`;
+  node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --longitude 114.5333
+  node verify-pillars.cjs hour-scan --solar "2000-05-15T14:34:17" --gender 1`;
 
 function die(message, code) {
   process.stderr.write(message + '\n');
@@ -190,8 +201,8 @@ function minusOneHour(timeStr) {
 // 以「距本时辰最近边界的分钟数」衡量精度风险。20 分钟以内即判为脆弱：
 // 均时差表误差（数十秒）、报时取整（常以 5 分钟或「几点」口径给出，±15 分钟）、
 // 夏令时首尾日三个因素叠加，足以翻转时辰。实战案例：
-// 1986–1991 年间出生的命例，钟表时间报 08:00，扣除夏令时后真太阳时落在 06:44，
-// 距卯／辰边界仅 15 分钟；第三方 App 未扣夏令时因此定成辰时，结论分歧。
+// 2000-05-15 钟表 08:00 → 扣夏令时 → 真太阳时 06:44:35，距卯/辰边界仅 15 分钟，
+// 第三方 App 未扣夏令时因此定成辰时，两版结论分歧。
 const BOUNDARY_RISK_MINUTES = 20;
 
 function boundaryRisk(timeStr) {
@@ -256,13 +267,43 @@ function formatCounts({ counts, total }) {
   return `${parts.join(' / ')}   （合计 ${total}）`;
 }
 
-function cmdShishen(flags) {
+function parsePillarsFlag(flags, command) {
   const raw = flags.pillars;
-  if (!raw) die('shishen 需要 --pillars "<年柱> <月柱> <日柱> <时柱>"\n\n' + USAGE, 1);
+  if (!raw) die(`${command} 需要 --pillars "<年柱> <月柱> <日柱> <时柱>"\n\n` + USAGE, 1);
   const pillars = String(raw).trim().split(/\s+/);
   if (pillars.length !== 4) die(`需要恰好 4 个柱，收到 ${pillars.length} 个：${raw}`, 1);
+  pillars.forEach((pillar) => {
+    if (!/^[甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]{2}$/.test(pillar)) {
+      die(`四柱格式错误：${pillar}。每柱应为一个天干加一个地支。`, 1);
+    }
+  });
+  return pillars;
+}
+
+function cmdShishen(flags) {
+  const pillars = parsePillarsFlag(flags, 'shishen');
   const { counts, total } = analyzeShishen(pillars);
   process.stdout.write(`【十神占比】四柱 ${pillars.join(' ')}\n  ${formatCounts({ counts, total })}\n`);
+}
+
+function cmdWuxing(flags) {
+  const pillars = parsePillarsFlag(flags, 'wuxing');
+  const counts = Object.fromEntries(ELEMENTS.map((element) => [element, 0]));
+  pillars.forEach((pillar) => {
+    const [stem, branch] = [...pillar];
+    counts[STEM_ELEMENTS[stem]] += 1;
+    counts[BRANCH_ELEMENTS[branch]] += 1;
+  });
+  const total = pillars.length * 2;
+  const parts = ELEMENTS.map((element) => {
+    const percentage = (counts[element] / total * 100).toFixed(1).replace('.0', '');
+    return `${element} ${counts[element]}/${total}（${percentage}%）`;
+  });
+  process.stdout.write(
+    `【明面五行分布】四柱 ${pillars.join(' ')}\n` +
+    `  ${parts.join(' / ')}\n` +
+    '  口径：天干 4 位＋地支 4 位各计一位，不纳入藏干；此统计不等同旺衰强弱分。\n'
+  );
 }
 
 function cmdHourScan(flags) {
@@ -369,6 +410,7 @@ function main() {
   switch (cmd) {
     case 'true-solar': cmdTrueSolar(flags); break;
     case 'shishen': cmdShishen(flags); break;
+    case 'wuxing': cmdWuxing(flags); break;
     case 'hour-scan': cmdHourScan(flags); break;
     case 'compare': cmdCompare(flags); break;
     default: die(`未知子命令: ${cmd}\n\n` + USAGE, 1);
