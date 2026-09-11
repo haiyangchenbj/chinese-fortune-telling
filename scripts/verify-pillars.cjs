@@ -73,7 +73,7 @@ const USAGE = `verify-pillars.cjs — 四柱交叉校验工具
 --sect    1=夜子时进位  2=不进位（默认）
 
 示例:
-  node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --longitude 120.16
+  node verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --longitude 114.5333
   node verify-pillars.cjs hour-scan --solar "2000-05-15T14:34:17" --gender 1`;
 
 function die(message, code) {
