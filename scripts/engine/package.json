@@ -1,0 +1,38 @@
+{
+  "name": "chinese-fortune-telling-engine",
+  "version": "1.0.0",
+  "displayName": "命理占卜·排盘引擎",
+  "description": "Chart-calculation engine for the chinese-fortune-telling skill: BaZi four pillars, pattern (geju) and useful-god analysis, Zi Wei Dou Shu, Qi Men Dun Jia, Liu Yao, Mei Hua Yi Shu, marriage compatibility, and date selection. Pure local computation — no network calls at runtime.",
+  "keywords": [
+    "八字",
+    "四柱",
+    "紫微斗数",
+    "奇门遁甲",
+    "六爻",
+    "梅花易数",
+    "合婚",
+    "择吉",
+    "命理",
+    "BaZi",
+    "ZiWei",
+    "divination",
+    "date selection"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "ziwei": "node ziwei.js",
+    "marriage": "node marriage.js",
+    "meihua": "node meihua.js",
+    "liuyao": "node liuyao.js",
+    "qimen": "node qimen.js",
+    "zhuanshi": "node zhuanshi.js",
+    "jieqi": "node jieqi.js",
+    "bazi": "node bazi-analysis.js"
+  },
+  "dependencies": {
+    "iztro": "^2.5.8"
+  }
+}
