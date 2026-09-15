@@ -5,7 +5,7 @@ displayName: "命理占卜 · Chinese Fortune Telling"
 description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via scripts/engine/bazi-analysis.js, and Zi Wei Dou Shu palaces and four transformations via scripts/engine/ziwei.js. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 运势 / 大运 / 流年 (luck cycles), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 / 问事 reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、运势、流年、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
 description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、运势流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
 description_en: Chinese fortune telling & BaZi chart reading — classical-source reasoning engine
-version: 1.1.0
+version: 1.1.1
 agent_created: true
 read_when:
   - "帮我算算命 / 算个卦 / 看下我的八字 / 批生辰八字 / 排个盘 / 看命盘"
@@ -289,9 +289,8 @@ Set-Location $SKILL_ROOT\scripts
   - **污染范围（2026-09-11 实测补全）**：该偏移不止影响打印的月柱，会向下游传播三块——**月令**（辰月→巳月）、**格局**（正官格→偏财格）、**扶抑取用方向**。实测 2000-05-05 立夏当天：ziwei 报「巳月·偏财格」，而 `bazi-analysis.js` 报「辰月·正官格（善用神 ❌ 否）」。→ 引用 ziwei 输出时**必须屏蔽其「八字」「月令」「格局」「用神」四块**，只采信命宫、十二宫、四化、大运大限。
 - **`engine/ziwei.js` 内置的八字强弱算法与 `bazi-analysis.js` 口径不一致，方向可能相反（2026-09-11 新发现）**：同一命局两边给的日主强弱与扶抑方向可以完全对立。实测两组命例：甲木日主一方（2000-06-05 06:00），`bazi-analysis.js` 判 **弱 106 分、宜取印比生扶（水木）**，`ziwei.js` 判 **偏强 316 分、宜补土、宜避木火**——**方向相反**；癸水日主一方（2000-05-05 06:00）两引擎方向一致，但分值差 127（165 vs 292）。→ **强弱分与用神一律只引 `bazi-analysis.js`**（子平派专责模块），**永不在结论里引用 ziwei 输出的「综合 N 分」**。
 - 不做风水空间调理（相宅相墓属四库术数类，但本 skill 不主推，也未随包附带相关脚本）。
-- `engine/marriage.js` 的评分口径只计日主关系与年支关系，月柱冲、夫妻宫合**不计入分数**，因此分数偏低是口径问题而非关系差；须结合 `references/12-hehun-liunian.md` 的分项判读，不可只报分数。
-- `engine/marriage.js` 的建议文案存在一处模板瑕疵：无论实际有无天干相合都会输出「天干相合，感情纽带强」。以「详细分析」区的数据为准，不要转述这句。
-- `engine/marriage.js` 的地支关系表缺六破、六害、暗合。**注意**：cantian 的「刑冲合会」字段是**有**卯辰相害的（已实测），缺口只在 marriage.js 一侧，不要在结论里说「引擎不支持害」。
+- `engine/marriage.js` 的评分口径只计日主关系与年支关系，月柱冲、夫妻宫合**不计入分数**，因此分数偏低是口径问题而非关系差；须结合 `references/12-hehun-liunian.md` 的分项判读，不可只报分数。（2026-09-15 起报告在评分区自动打印此口径说明。）
+- `engine/marriage.js` 已修补（2026-09-15，本地 vendored 副本）：① 地支关系表补齐六破、六害、三刑（含子卯刑、丑戌未、寅巳申、自刑）、完整三合半合，原「丑亥三合」等错误对已修正；② 新增跨柱 4×4 地支全矩阵与全柱天干五合扫描（原只查同位四柱与日干一对一，跨柱冲合完全漏报）；③ 新增配偶星提示节（男财女官的明见／仅藏／不见，只报结构不判吉凶）；④ 修复建议文案两处子串误判（原 `includes('合')` 会命中「无天干相合」「无特殊合冲」）；⑤ 输出标签改甲方／乙方（参数顺序不编码性别，不再标男方／女方）。**仍不覆盖：暗合**（藏干层合——cantian 盘内「刑冲合会」有暗合字段可查，权重低）；合中带破/刑者（寅亥、巳申、丑戌）以合力为先只报第一项。
 - `engine/jieqi.js` 只输出节气**日期**，不含交接**时刻**。要精确定位交节时刻，用 `run-cantian.cjs buildBaziFromSolar.ts` 逐时刻扫描月柱翻转点。
 - `engine/zhuanshi.js` 的建除十二神整体偏移一位、冲字段格式错误（详见 `references/11-zeri.md`）。
 - `engine/liuyao.js` 的六亲以日干而非卦宫为「我」、且无卦宫概念、世应为简化版（详见 `references/05-liuyao.md`）。

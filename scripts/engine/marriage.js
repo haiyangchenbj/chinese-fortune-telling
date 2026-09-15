@@ -7,10 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// 可选的命例档案目录（每个档案一个 <userId>.json）。
-// 仅「2 个参数」的调用模式会读取档案；「4 个参数」模式直接传姓名与四柱，不读档案。
-const PROFILES_DIR = process.env.FORTUNE_PROFILES_DIR
-  || path.join(process.env.HOME || process.env.USERPROFILE || '.', '.chinese-fortune-telling', 'profiles');
+const PROFILES_DIR = path.join(__dirname, '../data/profiles');
 
 /**
  * 加载用户档案
@@ -151,34 +148,53 @@ function analyzeNaYinCompatibility(bazi1, bazi2) {
 }
 
 /**
- * 地支合冲分析
+ * 地支藏干表（用于配偶星查找与暗合判定）
  */
+const cangGan = {
+  '子': ['癸'], '丑': ['己', '癸', '辛'], '寅': ['甲', '丙', '戊'],
+  '卯': ['乙'], '辰': ['戊', '乙', '癸'], '巳': ['丙', '戊', '庚'],
+  '午': ['丁', '己'], '未': ['己', '丁', '乙'], '申': ['庚', '壬', '戊'],
+  '酉': ['辛'], '戌': ['戊', '辛', '丁'], '亥': ['壬', '甲']
+};
+
+/**
+ * 天干五合表
+ */
+const tianGanHeMap = {
+  '甲己': '甲己合土', '己甲': '甲己合土',
+  '乙庚': '乙庚合金', '庚乙': '乙庚合金',
+  '丙辛': '丙辛合水', '辛丙': '丙辛合水',
+  '丁壬': '丁壬合木', '壬丁': '丁壬合木',
+  '戊癸': '戊癸合火', '癸戊': '戊癸合火'
+};
+
+/**
+ * 地支合冲刑害破全表（2026-09-15 修补：原表缺六破、六害、三刑，且三合对不全、比和只有三支）
+ * 判定优先级：六合 > 六冲 > 三合（半合）> 三刑 > 六害 > 六破 > 比和
+ * 注：寅亥、巳申、丑戌等组同时属两类关系（合中带破/刑），按传统以合力为先，取第一项。
+ */
+const zhiLiuHe = ['子丑', '寅亥', '卯戌', '辰酉', '巳申', '午未'];
+const zhiLiuChong = ['子午', '丑未', '寅申', '卯酉', '辰戌', '巳亥'];
+const zhiSanHe = ['申子', '子辰', '申辰', '寅午', '午戌', '寅戌',
+                  '巳酉', '酉丑', '巳丑', '亥卯', '卯未', '亥未'];
+const zhiSanXing = ['子卯', '寅巳', '巳申', '寅申', '丑戌', '戌未', '丑未',
+                    '辰辰', '午午', '酉酉', '亥亥'];
+const zhiLiuHai = ['子未', '丑午', '寅巳', '卯辰', '申亥', '酉戌'];
+const zhiLiuPo = ['子酉', '丑辰', '寅亥', '卯午', '巳申', '未戌'];
+
 function analyzeDiZhiRelation(zhi1, zhi2) {
-  const heMap = {
-    '子丑': '六合', '寅亥': '六合', '卯戌': '六合',
-    '辰酉': '六合', '巳申': '六合', '午未': '六合',
-    '寅午': '三合', '午戌': '三合', '子辰': '三合',
-    '申子': '三合', '巳酉': '三合', '丑亥': '三合',
-    '卯卯': '比和', '午午': '比和', '酉酉': '比和'
-  };
-  
-  const chongMap = {
-    '子午': '子午相冲', '丑未': '丑未相冲',
-    '寅申': '寅申相冲', '卯酉': '卯酉相冲',
-    '辰戌': '辰戌相冲', '巳亥': '巳亥相冲'
-  };
-  
-  const key1 = zhi1 + zhi2;
-  const key2 = zhi2 + zhi1;
-  
-  let result = '';
-  if (heMap[key1]) result = heMap[key1];
-  else if (heMap[key2]) result = heMap[key2];
-  else if (chongMap[key1]) result = chongMap[key1];
-  else if (chongMap[key2]) result = chongMap[key2];
-  else result = '无特殊合冲';
-  
-  return result;
+  const pair = zhi1 + zhi2;
+  const rev = zhi2 + zhi1;
+  const hit = (list) => list.includes(pair) || list.includes(rev);
+
+  if (hit(zhiLiuHe)) return '六合';
+  if (hit(zhiLiuChong)) return '相冲';
+  if (hit(zhiSanHe)) return '三合（半合）';
+  if (hit(zhiSanXing)) return zhi1 === zhi2 ? '自刑' : '相刑';
+  if (hit(zhiLiuHai)) return '相害';
+  if (hit(zhiLiuPo)) return '相破';
+  if (zhi1 === zhi2) return '比和';
+  return '无特殊合冲';
 }
 
 /**
@@ -198,6 +214,67 @@ function analyzeTianGanHe(bazi1, bazi2) {
   const key2 = day2 + day1;
   
   return heTian[key] || heTian[key2] || '日主无天干相合';
+}
+
+/**
+ * 全柱天干五合扫描（2026-09-15 新增）
+ * 引擎原实现只查日干一对一；合婚中跨柱天干合（如一方日主与另一方时干正财相合）同样是结构信号，全部列出供人工判读。
+ */
+function findAllTianGanHe(bazi1, bazi2) {
+  const stems1 = (bazi1.split(/\s+/) || []).map(p => p.charAt(0)).filter(Boolean);
+  const stems2 = (bazi2.split(/\s+/) || []).map(p => p.charAt(0)).filter(Boolean);
+  const zhiPos = ['年', '月', '日', '时'];
+  const found = [];
+  stems1.forEach((s1, i) => {
+    stems2.forEach((s2, j) => {
+      if (i === 2 && j === 2) return; // 日干一对一已在【天干相合】节报告
+      const he = tianGanHeMap[s1 + s2];
+      if (he) found.push(`${zhiPos[i]}干${s1} × ${zhiPos[j]}干${s2}：${he}`);
+    });
+  });
+  return found;
+}
+
+/**
+ * 跨柱地支全矩阵（2026-09-15 新增）
+ * 引擎原实现只查四柱同位关系；错位关系（如一方时支冲另一方月支）在合婚中同样重要，4×4 全矩阵输出，滤除无关系对。
+ */
+function buildZhiMatrix(bazi1, bazi2) {
+  const z1 = (bazi1.split(/\s+/) || []).map(p => p.charAt(1)).filter(Boolean);
+  const z2 = (bazi2.split(/\s+/) || []).map(p => p.charAt(1)).filter(Boolean);
+  const zhiPos = ['年支', '月支', '日支', '时支'];
+  const found = [];
+  z1.forEach((a, i) => {
+    z2.forEach((b, j) => {
+      const r = analyzeDiZhiRelation(a, b);
+      if (r !== '无特殊合冲') found.push(`甲${zhiPos[i]}${a} × 乙${zhiPos[j]}${b}：${r}`);
+    });
+  });
+  return found;
+}
+
+/**
+ * 配偶星提示（2026-09-15 新增）
+ * 只报结构、不判吉凶：对每盘分别列出配偶星五行（男以财为妻、女以官为夫，此处两性方向并列给出），
+ * 并标注其在天干明见／仅地支藏干／全盘不见。
+ */
+function analyzeSpouseStar(bazi) {
+  const parts = bazi.split(/\s+/) || [];
+  const stems = parts.map(p => p.charAt(0)).filter(Boolean);
+  const zhis = parts.map(p => p.charAt(1)).filter(Boolean);
+  const day = stems[2];
+  const dayEl = tianGan[day]?.element;
+  if (!dayEl) return null;
+  const caiEl = wuXingRelations[dayEl].ke;      // 我克者为财
+  const guanEl = Object.keys(wuXingRelations).find(k => wuXingRelations[k].ke === dayEl); // 克我者为官
+  const status = (el) => {
+    const inStem = stems.filter(s => tianGan[s]?.element === el);
+    const inHidden = zhis.flatMap(z => cangGan[z] || []).filter(s => tianGan[s]?.element === el);
+    if (inStem.length) return `天干明见（${inStem.join('、')}）`;
+    if (inHidden.length) return `不透，仅藏地支（${[...new Set(inHidden)].join('、')}）`;
+    return '全盘不见';
+  };
+  return { dayEl, caiEl, guanEl, cai: status(caiEl), guan: status(guanEl) };
 }
 
 /**
@@ -236,7 +313,7 @@ function generateReport(name1, bazi1, name2, bazi2) {
   const dayAnalysis = analyzeDayMasterCompatibility(bazi1, bazi2);
   const naYin = analyzeNaYinCompatibility(bazi1, bazi2);
   
-  // 解析八字（格式："庚辰 辛巳 癸酉 己未"）
+  // 解析八字（格式："庚午 辛巳 庚辰 癸未"）
   const parseBazi = (bazi) => {
     const parts = bazi.split(' ');
     return {
@@ -278,11 +355,11 @@ function generateReport(name1, bazi1, name2, bazi2) {
 
 ━━━━━━━━━━━━━━━━━━━━
 
-👤 男方：${name1}
+👤 甲方：${name1}
    八字：${bazi1}
    日主：${dayAnalysis.day1}（${dayAnalysis.el1}）
 
-👤 女方：${name2}
+👤 乙方：${name2}
    八字：${bazi2}
    日主：${dayAnalysis.day2}（${dayAnalysis.el2}）
 
@@ -292,6 +369,8 @@ function generateReport(name1, bazi1, name2, bazi2) {
 
    ${evaluation.grade} ${evaluation.level}
    综合得分：${overallScore}分（满分100）
+   ⚠ 口径说明：本分仅计入日主关系与年支关系；夫妻宫（日支）、其余柱位合冲刑害、
+     天干五合、配偶星均不计入分数，请以「详细分析」区分项为准，勿以总分单独定论。
 
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -302,20 +381,44 @@ function generateReport(name1, bazi1, name2, bazi2) {
    ${overallScore >= 60 ? '✅ 日主关系良好' : overallScore >= 40 ? '⚠️ 日主关系一般' : '❌ 日主关系欠佳'}
 
 【纳音五行】
-   男：${naYin.ny1}
-   女：${naYin.ny2}
+   甲方：${naYin.ny1}
+   乙方：${naYin.ny2}
    ${naYin.ny1 === naYin.ny2 ? '✅ 纳音相同，五行和谐' : '📝 纳音不同，需注意调和'}
 
 【天干相合】
    ${heResult}
 
-【地支关系】
+【天干五合 · 全柱扫描】
+${(() => {
+  const allHe = findAllTianGanHe(bazi1, bazi2);
+  return allHe.length ? allHe.map(s => '   ' + s).join('\n') : '   除日干外无天干五合';
+})()}
+
+【地支关系 · 同位四柱】
 `;
   
   dzResults.forEach(p => {
     report += `   ${p.name}（${p.z1} vs ${p.z2}）：${p.relation}\n`;
   });
-  
+
+  report += `
+【地支关系 · 跨柱全矩阵】
+${(() => {
+  const m = buildZhiMatrix(bazi1, bazi2);
+  return m.length ? m.map(s => '   ' + s).join('\n') : '   跨柱无合冲刑害破关系';
+})()}
+
+【配偶星提示】（只报结构，不判吉凶）
+${(() => {
+  const s1 = analyzeSpouseStar(bazi1);
+  const s2 = analyzeSpouseStar(bazi2);
+  const fmt = (who, s) => s
+    ? `   ${who}日主${s.dayEl}：财星（${s.caiEl}）${s.cai}；官星（${s.guanEl}）${s.guan}`
+    : `   ${who}：无法解析`;
+  return fmt('甲方', s1) + '\n' + fmt('乙方', s2);
+})()}
+`;
+
   report += `
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -328,7 +431,7 @@ function generateReport(name1, bazi1, name2, bazi2) {
 🎉 恭喜！你们的八字非常相配。
 
 • 日主关系和谐
-• ${heResult.includes('合') ? '天干相合，感情纽带强' : '可多培养共同兴趣'}
+• ${heResult.includes('之合') ? '日干五合，存在天然吸引与牵绊（合而不化亦主黏着难断）' : '日干无五合，吸引主要靠后天相处建立'}
 • ${dzResults.filter(p => p.relation.includes('合')).length >= 2 ? '多柱相合，缘分深厚' : '虽有冲克，但可化解'}
 
 💕 婚姻展望：
@@ -340,7 +443,7 @@ function generateReport(name1, bazi1, name2, bazi2) {
 
 • 日主关系${dayAnalysis.score >= 50 ? '尚可' : '需加强'}
 • 建议多沟通，了解彼此需求
-• 注意${dzResults.find(p => p.relation.includes('冲'))?.name || '相关'}地支的影响
+• 注意${dzResults.find(p => p.relation.includes('相冲'))?.name || '相关'}地支的影响
 
 💡 婚姻建议：
    婚后需要双方共同努力，多包容理解。
@@ -374,7 +477,7 @@ if (args.length < 2) {
 
 示例:
   node marriage.js 111111 222222
-  node marriage.js 张三 "甲子 乙丑 丙寅 丁卯" 李四 "庚辰 辛巳 癸酉 己未"
+  node marriage.js 张三 "甲子 乙丑 丙寅 丁卯" 李四 "庚午 辛巳 庚辰 癸未"
 `);
   process.exit(1);
 }
