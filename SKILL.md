@@ -2,17 +2,17 @@
 name: chinese-fortune-telling
 slug: chinese-fortune-telling
 displayName: "命理占卜 · Chinese Fortune Telling"
-description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via scripts/engine/bazi-analysis.js, and Zi Wei Dou Shu palaces and four transformations via scripts/engine/ziwei.js. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 运势 / 大运 / 流年 (luck cycles), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 / 问事 reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、运势、流年、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
-description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、运势流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
+description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via scripts/engine/bazi-analysis.js, and Zi Wei Dou Shu palaces and four transformations via scripts/engine/ziwei.js. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 大运 / 流年 (luck cycles) or about 运势 only in a chart context (paired with 八字 / 命盘 / 生肖 / 流年), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 divination reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、流年运势、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
+description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、大运流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
 description_en: Chinese fortune telling & BaZi chart reading — classical-source reasoning engine
-version: 1.1.1
+version: 1.2.0
 agent_created: true
 read_when:
   - "帮我算算命 / 算个卦 / 看下我的八字 / 批生辰八字 / 排个盘 / 看命盘"
-  - "今年运势怎么样 / 流年 / 大运走什么 / 什么时候转运"
+  - "流年运势如何 / 大运走什么 / 什么时候转运（「运势」需结合八字/流年/命盘等命理语境，孤立出现时先澄清）"
   - "我们俩合不合 / 合婚 / 合盘 / 八字配对"
   - "下个月哪天适合开业 / 搬家 / 签约 / 挑个好日子 / 择吉"
-  - "帮我起一卦 / 占卜 / 问个事 / 梅花易数 / 六爻 / 奇门起局"
+  - "帮我起一卦 / 占卜一个具体问题 / 梅花易数 / 六爻 / 奇门起局"
   - "紫微斗数 / 七政四余 / 星盘"
   - "这个算命 App（测测 / 生辰）的结果准不准 / 帮我核验这份命理报告"
   - "子平真诠怎么讲 / 滴天髓 / 穷通宝鉴 / 三命通会 里的判法是什么"
@@ -21,6 +21,13 @@ not_for:
   - "风水布局、户型调理、九宫飞星方位布置（本 skill 只做择吉，不做空间调理）"
   - "疾病诊断、寿元预测、法律胜负、股票/基金/房产等具体投资标的建议"
   - "需要绝对肯定断言的场景（本 skill 强制非绝对句式）"
+  - "泛泛的生活建议、情绪安慰、健康养生话题——「运势」孤立出现而无八字/流年/命盘等命理语境时，先向用户澄清再决定是否进入本 skill，不要默认套用术数框架"
+allowed-tools:
+  - execute_command
+  - read_file
+  - file_read
+  - write_to_file
+  - file_write
 metadata:
   openclaw:
     emoji: "☯"
@@ -41,6 +48,12 @@ tags: [算命, 算卦, 看八字, 批八字, 生辰八字, 排盘, 看命盘, �
 用于：问命（一生格局）、问运（大运流年）、问事（单件吉凶）、合婚合盘、择吉选日、核验第三方命理报告。
 
 不用于：塔罗、星座运势、生命灵数、风水空间调理、以及任何医疗／法律／投资结论。用户问这些时直接说明本 skill 不做，不要勉强套用术数框架。
+
+## 权限与隐私边界
+
+- **工具边界**：本 skill 只需要文件读写与本地命令执行两类权限。命令执行仅限用 Node 运行本 skill `scripts/` 目录内的三个桥接脚本（`run-cantian.cjs` / `run-engine.cjs` / `verify-pillars.cjs`）；桥接脚本对被调引擎做**白名单 + 路径遏制**（fail-closed），不会执行目录之外的任何文件。不需要网络访问，不需要继承任何环境变量或凭据；`@file` 输入只允许落在 skill 目录、当前工作目录或系统临时目录内。
+- **隐私（采集前必读）**：排盘需要出生日期、准确出生时间、性别、出生地等高敏感个人信息，仅用于本地计算；本 skill 及其脚本**不联网上报、不写入任何外部服务、不做持久化存储**。用户可拒绝提供部分信息并降级到低精度模式（见下表）；采集前先说明用途并征得同意，再开始采集。
+- **语言政策**：本 skill 的判据语料与脚本文案以中文为主（术数领域中文典籍语料最完整，属领域性选择）；对用户的回复语言跟随用户提问语言，需要英文或其他语言输出时直接说明即可。
 
 ## 路径与运行时
 
@@ -86,6 +99,8 @@ PowerShell 下必须每轮先设 `[Console]::OutputEncoding = [System.Text.Encod
 | 核验 | 第三方报告是否可信 | 交叉校验（`verify-pillars.cjs`） | — |
 
 ### Step 2 [Deterministic] 采集六要素与精度分级
+
+> 🔒 采集前先向用户说明「权限与隐私边界」中的隐私条款：数据仅用于本地排盘、可拒绝提供、可降级到低精度模式；征得同意后再采集。
 
 必需：① 公历或农历出生日期 ② 出生时间（**钟表时间**，注明是否早/晚子时）③ 性别 ④ 出生地（真太阳时校正必需，要经度或城市名）⑤ 可选：双胞胎／剖腹产。
 
