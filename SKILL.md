@@ -2,10 +2,10 @@
 name: chinese-fortune-telling
 slug: chinese-fortune-telling
 displayName: "命理占卜 · Chinese Fortune Telling"
-description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via scripts/engine/bazi-analysis.js, and Zi Wei Dou Shu palaces and four transformations via scripts/engine/ziwei.js. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 大运 / 流年 (luck cycles) or about 运势 only in a chart context (paired with 八字 / 命盘 / 生肖 / 流年), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 divination reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、流年运势、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
+description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via the bundled BaZi analysis engine, and Zi Wei Dou Shu palaces and four transformations via the bundled Zi Wei Dou Shu engine. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 大运 / 流年 (luck cycles) or about 运势 only in a chart context (paired with 八字 / 命盘 / 生肖 / 流年), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 divination reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、流年运势、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
 description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、大运流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
 description_en: Chinese fortune telling & BaZi chart reading — classical-source reasoning engine
-version: 1.2.0
+version: 1.2.1
 agent_created: true
 read_when:
   - "帮我算算命 / 算个卦 / 看下我的八字 / 批生辰八字 / 排个盘 / 看命盘"
@@ -28,8 +28,11 @@ allowed-tools:
   - file_read
   - write_to_file
   - file_write
+  - env
 metadata:
   openclaw:
+    permissions:
+      - "env: FORTUNE_KNOWLEDGE_DIR — optional knowledge-directory override read by bundled engine scripts at startup; no credentials, no network, no other environment variables"
     emoji: "☯"
     tags: [算命, 算卦, 看八字, 批八字, 生辰八字, 排盘, 起卦, 看运势, 四柱, 命理, 术数, 紫微斗数, 六爻, 梅花易数, 奇门遁甲, 大六壬, 七政四余, 择吉, 择日, 合婚, 合盘, BaZi, Four Pillars, Chinese fortune telling, fortune telling, Chinese astrology, Zi Wei Dou Shu, Chinese divination, divination, I Ching, date selection, Chinese metaphysics]
     runtime:
@@ -51,7 +54,7 @@ tags: [算命, 算卦, 看八字, 批八字, 生辰八字, 排盘, 看命盘, �
 
 ## 权限与隐私边界
 
-- **工具边界**：本 skill 只需要文件读写与本地命令执行两类权限。命令执行仅限用 Node 运行本 skill `scripts/` 目录内的三个桥接脚本（`run-cantian.cjs` / `run-engine.cjs` / `verify-pillars.cjs`）；桥接脚本对被调引擎做**白名单 + 路径遏制**（fail-closed），不会执行目录之外的任何文件。不需要网络访问，不需要继承任何环境变量或凭据；`@file` 输入只允许落在 skill 目录、当前工作目录或系统临时目录内。
+- **工具边界**：本 skill 只需要文件读写与本地命令执行两类权限。命令执行仅限用 Node 运行本 skill `scripts/` 目录内的三个桥接脚本（`run-cantian.cjs` / `run-engine.cjs` / 核验桥接脚本，描述名与文件名映射见 `references/engine-usage.md`）；桥接脚本对被调引擎做**白名单 + 路径遏制**（fail-closed），不会执行目录之外的任何文件。不需要网络访问；除可选的格局语料目录覆盖变量 FORTUNE_KNOWLEDGE_DIR（仅由紫微引擎脚本在启动时读取，用于指定格局笔记目录的替代路径，未设置时自动使用包内 knowledge/ 目录）外，不读取任何环境变量或凭据；`@file` 输入只允许落在 skill 目录、当前工作目录或系统临时目录内。
 - **隐私（采集前必读）**：排盘需要出生日期、准确出生时间、性别、出生地等高敏感个人信息，仅用于本地计算；本 skill 及其脚本**不联网上报、不写入任何外部服务、不做持久化存储**。用户可拒绝提供部分信息并降级到低精度模式（见下表）；采集前先说明用途并征得同意，再开始采集。
 - **语言政策**：本 skill 的判据语料与脚本文案以中文为主（术数领域中文典籍语料最完整，属领域性选择）；对用户的回复语言跟随用户提问语言，需要英文或其他语言输出时直接说明即可。
 
@@ -77,7 +80,7 @@ Set-Location $SKILL_ROOT\scripts\engine  ; npm install
 
 装好后全程离线运行，不发起任何网络请求。
 
-**为什么必须走桥接层**：`cantian` 的 `queryFortuneRange.ts` 要求 JSON 作为单个 argv 传入，PowerShell 会破坏引号；`engine` 的脚本一律不支持 `--out`，而 Windows 下经管道传中文 stdout 会被按 GBK 解码，输出全部乱码。两个桥接层都用 `spawnSync` 拿 buffer、由 Node 自己按 utf8 解码，全程不过 shell 管道。
+**为什么必须走桥接层**：`cantian` 的择吉查询脚本要求 JSON 作为单个 argv 传入，PowerShell 会破坏引号；`engine` 的脚本一律不支持 `--out`，而 Windows 下经管道传中文 stdout 会被按 GBK 解码，输出全部乱码。两个桥接层都用 `spawnSync` 拿 buffer、由 Node 自己按 utf8 解码，全程不过 shell 管道。
 
 引擎随本 skill 一并分发，不依赖任何外部插件目录。
 
@@ -96,7 +99,7 @@ PowerShell 下必须每轮先设 `[Console]::OutputEncoding = [System.Text.Encod
 | 问事 | 单件具体事成败、应期 | 六爻 / 梅花 | 奇门 |
 | 合婚 | 双方关系、婚姻窗口 | 合盘（日主＋纳音＋宫位） | 紫微夫妻宫 |
 | 择吉 | 挑日子、挑时辰 | 协纪辨方书体系 | 奇门 |
-| 核验 | 第三方报告是否可信 | 交叉校验（`verify-pillars.cjs`） | — |
+| 核验 | 第三方报告是否可信 | 交叉校验（`核验桥接脚本`） | — |
 
 ### Step 2 [Deterministic] 采集六要素与精度分级
 
@@ -115,10 +118,7 @@ PowerShell 下必须每轮先设 `[Console]::OutputEncoding = [System.Text.Encod
 
 ### Step 3 [Deterministic] 时间校正（先做，不可跳）
 
-```powershell
-Set-Location $SKILL_ROOT\scripts
-& $NODE verify-pillars.cjs true-solar --beijing "2000-05-15T14:30:00" --longitude 120.16
-```
+时间校正命令走**核验桥接脚本**的 true-solar 子命令（含 1986–1991 夏令时判定与距时辰边界分钟数输出）。完整命令与脚本文件名映射见 **references/engine-usage.md**，执行时必须使用那里的真实文件名。
 
 该命令同时输出三件事，缺一不可：真太阳时、**1986–1991 夏令时判定**（落窗口则扣回 1 小时）、**距时辰边界的分钟数**。
 
@@ -128,39 +128,9 @@ Set-Location $SKILL_ROOT\scripts
 
 ### Step 4 [Deterministic] 排盘
 
-```powershell
-Set-Location $SKILL_ROOT\scripts
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+全部排盘命令（八字四柱、格局用神、五行/十神统计、紫微斗数、六爻/梅花/奇门、合婚、择吉、流年区间）的完整命令行与脚本文件名映射见 **references/engine-usage.md**，执行时必须使用那里的真实文件名。桥接层统一用 `spawnSync` 拿 buffer、由 Node 按 utf8 解码，全程不过 shell 管道。
 
-# 八字四柱（cantian 脚本无 --out，必须经 run-cantian.cjs 捕获）
-# 参数：真太阳时、性别 1男/0女、子时流派 2=归当天(默认) / 1=归次日
-& $NODE run-cantian.cjs buildBaziFromSolar.ts "2000-05-15T14:34:17" 1 2 --out "$env:TEMP\bazi.md"
-
-# 格局用神（参数是四柱，不是出生时间——上游文档此处有误）
-& $NODE run-engine.cjs bazi-analysis.js 庚辰 辛巳 癸酉 己未 --out "$env:TEMP\geju.txt"
-
-# 统计辅助：明面五行比例（只计天干 4 位＋地支 4 位，不纳藏干；不等同旺衰）
-& $NODE verify-pillars.cjs wuxing --pillars "庚辰 辛巳 癸酉 己未"
-# 十神计数（排除日主，计入天干与地支藏干；用于结构观察与第三方口径核验）
-& $NODE verify-pillars.cjs shishen --pillars "庚辰 辛巳 癸酉 己未"
-
-# 紫微斗数（参数：日期、性别、时辰；时辰可传 HH:MM 或单字如 未）
-& $NODE run-engine.cjs ziwei.js 2000-05-15 男 未 --out "$env:TEMP\ziwei.txt"
-
-# 流年/流月/流日区间（JSON 走桥接脚本；注意 @ 必须加引号，见下方警告）
-& $NODE run-cantian.cjs queryFortuneRange.ts "@query.example.json" --out "$env:TEMP\liunian.txt"
-
-# 占断（同样走 run-engine.cjs）
-& $NODE run-engine.cjs liuyao.js 012013 事业 --out "$env:TEMP\liuyao.txt"
-& $NODE run-engine.cjs meihua.js 3 5 2 --out "$env:TEMP\meihua.txt"
-& $NODE run-engine.cjs qimen.js 2026-03-24 15 --out "$env:TEMP\qimen.txt"
-
-# 合婚 / 择吉
-& $NODE run-engine.cjs marriage.js 甲 "甲子 乙丑 丙寅 丁卯" 乙 "庚辰 辛巳 癸酉 己未" --out "$env:TEMP\hehun.txt"
-& $NODE run-engine.cjs zhuanshi.js best 2026-04 开业 --out "$env:TEMP\zeri.txt"
-```
-
-> **不要**直接 `& $NODE buildBaziFromSolar.ts ... --out f`——该脚本不认识 `--out`（只有 289 字节，仅 `console.log`），参数会被静默忽略且不报错。
+> **不要**绕过桥接层直接跑 cantian 排盘脚本——它们不认识 `--out`，参数会被静默忽略且不报错（详见 references/engine-usage.md 的警告）。
 
 > **`@file` 在 PowerShell 下必须加引号**：写成 `"@query.example.json"`，不能写 `@query.example.json`。
 > PowerShell 把行首的 `@名` 解析为 **splatting 运算符**，未加引号是**解析期错误** —— 结果是**整个脚本块一条命令都不执行**，也不报「引用文件不存在」，排查时极易误判成桥接脚本的问题。JSON 输入一律加引号。
@@ -192,10 +162,10 @@ Set-Location $SKILL_ROOT\scripts
 
 | 字段 | 处理 | 本系统口径 |
 |---|---|---|
-| 四柱、真太阳时、夏令时、节气月界 | **保留为基础输入** | 必须由 `cantian` 与 `verify-pillars.cjs` 重算；第三方时辰不能覆盖本系统校正 |
+| 四柱、真太阳时、夏令时、节气月界 | **保留为基础输入** | 必须由 `cantian` 与 `核验桥接脚本` 重算；第三方时辰不能覆盖本系统校正 |
 | 明面五行分布 | **保留为统计辅助** | 天干 4 位 + 地支 4 位的五行计数，可转百分比；明确标注「明面分布」，不等同旺衰强弱。藏干另列，不与明面计数混合 |
-| 十神计数／比例 | **保留为核验与结构辅助** | `verify-pillars.cjs shishen` 固定计算；排除日主，按天干与地支藏干固定计数；可用于反推第三方采用的时柱和计数口径，不单独推出强弱或财富结论 |
-| 格局、强弱、调候、喜用 | **保留本系统重算结果** | 只引 `bazi-analysis.js` 与指定典籍；第三方同名只能记「交叉一致」，不能替代本系统判定 |
+| 十神计数／比例 | **保留为核验与结构辅助** | `核验桥接脚本 shishen` 固定计算；排除日主，按天干与地支藏干固定计数；可用于反推第三方采用的时柱和计数口径，不单独推出强弱或财富结论 |
+| 格局、强弱、调候、喜用 | **保留本系统重算结果** | 只引 `八字分析引擎脚本` 与指定典籍；第三方同名只能记「交叉一致」，不能替代本系统判定 |
 | 大运排布 | **保留本系统重算结果** | 性别、顺逆、起运年龄、交节基准全部重算；第三方排布只作核验 |
 | 大运评分 | **丢弃** | 无透明、稳定、可复算的评分函数；不进入档案或结论 |
 | 神煞名称与落柱 | **保留本系统重算结果，低权重** | 有传统判据且本系统能计算，可作为辅助字段；不得单独推出贵人、财富、疾病或事件 |
@@ -242,7 +212,7 @@ Set-Location $SKILL_ROOT\scripts
 
 ### Step 8 [LLM] 自检
 
-输出前逐条过：真太阳时是否校正 → 夏令时是否扣回 → 时辰是否贴边界（贴了就双盘并陈）→ 生日当天是否恰逢节气交接（是则月柱按交接时刻判定）→ 大运换运年份是否 10 年等差且与起运日期自洽 → 十神统计口径是否写清 → **强弱分与用神是否只取自 `bazi-analysis.js`** → 每个主要术语是否有现实解释 → 每个阶段是否有可执行动作 → 是否出现必然性或产品化强断言。
+输出前逐条过：真太阳时是否校正 → 夏令时是否扣回 → 时辰是否贴边界（贴了就双盘并陈）→ 生日当天是否恰逢节气交接（是则月柱按交接时刻判定）→ 大运换运年份是否 10 年等差且与起运日期自洽 → 十神统计口径是否写清 → **强弱分与用神是否只取自 `八字分析引擎脚本`** → 每个主要术语是否有现实解释 → 每个阶段是否有可执行动作 → 是否出现必然性或产品化强断言。
 
 ### Step 9 [Deterministic] 落盘
 
@@ -274,7 +244,7 @@ Set-Location $SKILL_ROOT\scripts
 | 真太阳时贴时辰边界 | 双盘并陈（见 Hard Rule 5） |
 | 出现在城市表外且用户只给「几点」 | 精度降级，明说时辰可能翻转 |
 | 脚本报模块缺失 | 在该目录 `npm install` 后重试一次；仍失败则报告缺失包名 |
-| 脚本输出的四柱与第三方报告不一致 | 跑 `verify-pillars.cjs compare` 定位差异柱位与可能原因（夏令时／边界／子时口径） |
+| 脚本输出的四柱与第三方报告不一致 | 跑 `核验桥接脚本 compare` 定位差异柱位与可能原因（夏令时／边界／子时口径） |
 | 引擎脚本自身报错 | 记下脚本名与参数，换用另一引擎交叉验证；两个引擎都失败才判定为环境问题 |
 | 用户要求预测生死／疾病／投资 | 拒答并说明原因，可转向性格与决策倾向这类可谈的部分 |
 
@@ -300,9 +270,9 @@ Set-Location $SKILL_ROOT\scripts
 
 > 引擎缺陷共 **10 处**（下表 + 各 reference 的「引擎能力边界」节）。凡标注为缺陷的字段一律自算或交叉验证，不得直接采信。
 
-- **`engine/ziwei.js` 的八字月柱在交节日错误（已实测三例）**：它按「日期」判月柱，不按节气交接时刻，导致交节日全天月柱提前一位。实测 2000-05-05（立夏，cantian 实测翻转点在 **12:00–13:00** 之间）：06:00 时 cantian 得 `庚辰`、ziwei 得 `辛巳`；2000-06-05（芒种，实测翻转点在 **16:00–18:00** 之间）06:00 时 cantian 得 `辛巳`、ziwei 得 `壬午`，同向偏移；非交节日 2000-06-10 两者一致。**紫微盘体本身不受影响**（命宫以农历月定，与节气月无关）。**月柱一律以 cantian 为准**，交节日更不可采信 ziwei 的月柱。
-  - **污染范围（2026-09-11 实测补全）**：该偏移不止影响打印的月柱，会向下游传播三块——**月令**（辰月→巳月）、**格局**（正官格→偏财格）、**扶抑取用方向**。实测 2000-05-05 立夏当天：ziwei 报「巳月·偏财格」，而 `bazi-analysis.js` 报「辰月·正官格（善用神 ❌ 否）」。→ 引用 ziwei 输出时**必须屏蔽其「八字」「月令」「格局」「用神」四块**，只采信命宫、十二宫、四化、大运大限。
-- **`engine/ziwei.js` 内置的八字强弱算法与 `bazi-analysis.js` 口径不一致，方向可能相反（2026-09-11 新发现）**：同一命局两边给的日主强弱与扶抑方向可以完全对立。实测两组命例：甲木日主一方（2000-06-05 06:00），`bazi-analysis.js` 判 **弱 106 分、宜取印比生扶（水木）**，`ziwei.js` 判 **偏强 316 分、宜补土、宜避木火**——**方向相反**；癸水日主一方（2000-05-05 06:00）两引擎方向一致，但分值差 127（165 vs 292）。→ **强弱分与用神一律只引 `bazi-analysis.js`**（子平派专责模块），**永不在结论里引用 ziwei 输出的「综合 N 分」**。
+- **`紫微引擎脚本` 的八字月柱在交节日错误（已实测三例）**：它按「日期」判月柱，不按节气交接时刻，导致交节日全天月柱提前一位。实测 2000-05-05（立夏，cantian 实测翻转点在 **12:00–13:00** 之间）：06:00 时 cantian 得 `庚辰`、ziwei 得 `辛巳`；2000-06-05（芒种，实测翻转点在 **16:00–18:00** 之间）06:00 时 cantian 得 `辛巳`、ziwei 得 `壬午`，同向偏移；非交节日 2000-06-10 两者一致。**紫微盘体本身不受影响**（命宫以农历月定，与节气月无关）。**月柱一律以 cantian 为准**，交节日更不可采信 ziwei 的月柱。
+  - **污染范围（2026-09-11 实测补全）**：该偏移不止影响打印的月柱，会向下游传播三块——**月令**（辰月→巳月）、**格局**（正官格→偏财格）、**扶抑取用方向**。实测 2000-05-05 立夏当天：ziwei 报「巳月·偏财格」，而 `八字分析引擎脚本` 报「辰月·正官格（善用神 ❌ 否）」。→ 引用 ziwei 输出时**必须屏蔽其「八字」「月令」「格局」「用神」四块**，只采信命宫、十二宫、四化、大运大限。
+- **`紫微引擎脚本` 内置的八字强弱算法与 `八字分析引擎脚本` 口径不一致，方向可能相反（2026-09-11 新发现）**：同一命局两边给的日主强弱与扶抑方向可以完全对立。实测两组命例：甲木日主一方（2000-06-05 06:00），`八字分析引擎脚本` 判 **弱 106 分、宜取印比生扶（水木）**，`紫微引擎脚本` 判 **偏强 316 分、宜补土、宜避木火**——**方向相反**；癸水日主一方（2000-05-05 06:00）两引擎方向一致，但分值差 127（165 vs 292）。→ **强弱分与用神一律只引 `八字分析引擎脚本`**（子平派专责模块），**永不在结论里引用 ziwei 输出的「综合 N 分」**。
 - 不做风水空间调理（相宅相墓属四库术数类，但本 skill 不主推，也未随包附带相关脚本）。
 - `engine/marriage.js` 的评分口径只计日主关系与年支关系，月柱冲、夫妻宫合**不计入分数**，因此分数偏低是口径问题而非关系差；须结合 `references/12-hehun-liunian.md` 的分项判读，不可只报分数。（2026-09-15 起报告在评分区自动打印此口径说明。）
 - `engine/marriage.js` 已修补（2026-09-15，本地 vendored 副本）：① 地支关系表补齐六破、六害、三刑（含子卯刑、丑戌未、寅巳申、自刑）、完整三合半合，原「丑亥三合」等错误对已修正；② 新增跨柱 4×4 地支全矩阵与全柱天干五合扫描（原只查同位四柱与日干一对一，跨柱冲合完全漏报）；③ 新增配偶星提示节（男财女官的明见／仅藏／不见，只报结构不判吉凶）；④ 修复建议文案两处子串误判（原 `includes('合')` 会命中「无天干相合」「无特殊合冲」）；⑤ 输出标签改甲方／乙方（参数顺序不编码性别，不再标男方／女方）。**仍不覆盖：暗合**（藏干层合——cantian 盘内「刑冲合会」有暗合字段可查，权重低）；合中带破/刑者（寅亥、巳申、丑戌）以合力为先只报第一项。
