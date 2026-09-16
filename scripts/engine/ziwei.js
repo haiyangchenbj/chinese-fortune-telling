@@ -25,7 +25,7 @@ function buildPatternRules() {
   if (!fs.existsSync(KNOWLEDGE_DIR)) return [];
 
   const files = fs.readdirSync(KNOWLEDGE_DIR).filter(f => f.endsWith('.md'));
-  const rules = [];
+  const matchedRules = [];
   // 术语表、目录页、综合摘要类文件不参与格局匹配
   const skipNames = ['术语', '目录', '索引', 'index', 'README', '摘要'];
 
@@ -35,11 +35,11 @@ function buildPatternRules() {
     const content = fs.readFileSync(filePath, 'utf-8');
     const name = file.replace('.md', '');
 
-    const rule = parsePatternFile(name, content);
-    if (rule) rules.push(rule);
+    const parsed = parsePatternFile(name, content);
+    if (parsed) matchedRules.push(parsed);
   }
 
-  return rules;
+  return matchedRules;
 }
 
 /**
@@ -869,11 +869,11 @@ function getTiaohouYongshen(wuxing, monthBranch) {
   // 兼容旧接口：monthBranch可以是地支或月令对象
   const branch = typeof monthBranch === 'string' ? monthBranch : (monthBranch?.zhi || monthBranch?.branch || '寅');
   // 遍历找主用神
-  for (const [key, rule] of Object.entries(TIAO_HOU_TABLE)) {
+  for (const [key, entry] of Object.entries(TIAO_HOU_TABLE)) {
     const dayStem = key[0];
     const mz = key.slice(1);
     if (mz === branch) {
-      return rule['主用神'][0];
+      return entry['主用神'][0];
     }
   }
   return null;
