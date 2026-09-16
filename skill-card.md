@@ -1,6 +1,6 @@
 ## Description:
 
-This skill helps agents compute and interpret Chinese fortune-telling charts and readings, including BaZi, Zi Wei Dou Shu, Liu Yao, Mei Hua, Qi Men, compatibility, and auspicious-date selection, using bundled calculation scripts and classical-source interpretation boundaries.
+Chinese fortune telling and BaZi chart reading skill that uses bundled local scripts to compute charts and classical-source references to guide agent interpretation across BaZi, Zi Wei Dou Shu, Liu Yao, Mei Hua, Qi Men, compatibility, and date selection.
 
 This skill is ready for commercial/non-commercial use.
 
@@ -14,7 +14,7 @@ MIT-0
 
 ## Use Case:
 
-External users and developers use this skill to generate Chinese metaphysics readings for birth-chart analysis, luck-cycle questions, single-question divination, compatibility checks, auspicious-date selection, and review of third-party fortune-telling reports. It is not intended for medical, legal, or investment recommendations.
+External users and agent operators use this skill to compute and interpret Chinese metaphysics charts or divination readings, verify third-party fortune-telling reports, and produce bounded markdown dossiers for BaZi, Zi Wei Dou Shu, Liu Yao, Mei Hua, Qi Men, compatibility, and auspicious-date questions.
 
 ### Deployment Geography for Use:
 
@@ -22,49 +22,44 @@ Global
 
 ## Known Risks and Mitigations:
 
-Risk: Local bridge scripts may run files outside the intended folders.
+Risk: The skill can run bundled local Node scripts and write files, and its local file handling is broader than its stated safety boundaries.
 
-Mitigation: Review or patch the wrappers before installation by adding explicit allowlists, rejecting absolute paths and traversal, and avoiding user-controlled script names or @file paths.
+Mitigation: Run it in a sandboxed workspace, review dependency installation before npm install, and restrict output paths and @file inputs away from sensitive project, profile, and agent-state files.
 
-Risk: Readings may require sensitive personal data such as exact birth time, sex, birthplace, and longitude.
+Risk: Fortune-telling workflows may request sensitive personal birth details such as date, time, sex, and birthplace.
 
-Mitigation: Tell users what data is optional, explain precision tradeoffs, and avoid retaining or exposing sensitive details beyond the requested reading.
-
-Risk: Fortune-telling outputs can be mistaken for deterministic advice in high-impact domains.
-
-Mitigation: Keep outputs non-absolute and decline medical, legal, and investment recommendations as described by the skill boundaries.
+Mitigation: Collect only the details needed for the requested chart, explain local-use boundaries before collection, and avoid persistent storage of the user's personal data.
 
 ## Reference(s):
 
-- [ClawHub skill page](https://clawhub.ai/haiyangchenbj/skills/chinese-fortune-telling)
-- [00 · 流派分野与典籍源流](references/00-schools-and-sources.md)
-- [01 · 子平格局派](references/01-bazi-geju.md)
-- [02 · 调候扶抑派（滴天髓 · 穷通宝鉴）](references/02-bazi-tiaohou.md)
-- [03 · 盲派：做功与宾主体用](references/03-bazi-mangpai.md)
-- [04 · 紫微斗数](references/04-ziwei.md)
-- [05 · 六爻纳甲](references/05-liuyao.md)
-- [06 · 梅花易数](references/06-meihua.md)
-- [07 · 奇门遁甲](references/07-qimen.md)
-- [08 · 大六壬](references/08-daliuren.md)
-- [09 · 七政四余](references/09-qizheng-siyu.md)
-- [10 · 西方古典占星](references/10-western-classical.md)
-- [11 · 择吉（协纪辨方书体系）](references/11-zeri.md)
-- [12 · 合婚合盘与流年推断法](references/12-hehun-liunian.md)
-- [99 · 断语纪律与红线](references/99-boundaries.md)
+- [Schools and Sources](references/00-schools-and-sources.md)
+- [BaZi Geju](references/01-bazi-geju.md)
+- [BaZi Tiaohou](references/02-bazi-tiaohou.md)
+- [BaZi Mangpai](references/03-bazi-mangpai.md)
+- [Zi Wei Dou Shu](references/04-ziwei.md)
+- [Liu Yao](references/05-liuyao.md)
+- [Mei Hua Yi Shu](references/06-meihua.md)
+- [Qi Men Dun Jia](references/07-qimen.md)
+- [Da Liu Ren](references/08-daliuren.md)
+- [Qi Zheng Si Yu](references/09-qizheng-siyu.md)
+- [Western Classical Astrology](references/10-western-classical.md)
+- [Date Selection](references/11-zeri.md)
+- [Compatibility and Luck Cycles](references/12-hehun-liunian.md)
+- [Boundaries](references/99-boundaries.md)
 
 ## Skill Output:
 
-**Output Type(s):** [text, markdown, code, shell commands, configuration, guidance]
+**Output Type(s):** [text, markdown, shell commands, configuration, guidance]
 
-**Output Format:** [Markdown reports with supporting command examples and structured chart outputs]
+**Output Format:** [Markdown reports with inline local shell commands and structured chart-reading guidance]
 
 **Output Parameters:** [1D]
 
-**Other Properties Related to Output:** [Outputs should state the interpretive school, cite relevant classical references, avoid absolute predictions, and preserve sensitive birth details only as needed for the requested reading.]
+**Other Properties Related to Output:** [May write local markdown or text report files when the user asks for captured output.]
 
 ## Skill Version(s):
 
-1.2.0 (source: frontmatter and release evidence)
+1.2.1 (source: frontmatter and server release metadata)
 
 ## Ethical Considerations:
 
