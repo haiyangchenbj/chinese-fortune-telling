@@ -27,6 +27,10 @@
  *
  * 退出码
  *   0 成功 / 1 参数错误 / 2 找不到脚本 / 其他 = 被调用脚本的退出码（stderr 原样透传）
+ *
+ * 安全边界
+ *   只执行白名单内的 cantian 脚本（禁止路径分隔符与目录外文件，fail-closed）；
+ *   @file 读取仅限 skill 根目录、当前工作目录与系统临时目录。
  */
 
 const fs = require('fs');
@@ -34,6 +38,20 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const CANTIAN_DIR = path.join(__dirname, 'cantian');
+
+// 安全边界：只允许执行下列 cantian 脚本（fail-closed；util.ts 为内部模块不对外执行）
+const ALLOWED_SCRIPTS = new Set([
+  'buildBaziFromLunar.ts', 'buildBaziFromSolar.ts', 'convertToTrueSolarTime.ts',
+  'getChineseCalendar.ts', 'queryFortuneRange.ts',
+]);
+
+// @file 读取只允许落在这些根内（skill 根目录 / 当前工作目录 / 系统临时目录）
+const os = require('os');
+const ALLOWED_READ_ROOTS = [
+  path.resolve(__dirname, '..'),
+  process.cwd(),
+  os.tmpdir(),
+];
 
 const USAGE = `run-cantian.cjs — 安全桥接层：把参数原样传给 cantian 的 TS 脚本
 
@@ -61,7 +79,14 @@ function main() {
   }
 
   const scriptName = argv[0];
+  if (scriptName !== path.basename(scriptName) || !ALLOWED_SCRIPTS.has(scriptName)) {
+    die(`脚本不在白名单内: ${scriptName}\n允许的脚本:\n  ` +
+      [...ALLOWED_SCRIPTS].sort().join('\n  '), 1);
+  }
   const scriptPath = path.join(CANTIAN_DIR, scriptName);
+  if (!path.resolve(scriptPath).startsWith(path.resolve(CANTIAN_DIR) + path.sep)) {
+    die(`脚本路径越界: ${scriptPath}`, 1);
+  }
   if (!fs.existsSync(scriptPath)) {
     die(`找不到脚本: ${scriptPath}\n可用脚本:\n  ` +
       fs.readdirSync(CANTIAN_DIR).filter((f) => f.endsWith('.ts')).join('\n  '), 2);
@@ -80,6 +105,13 @@ function main() {
     }
     if (token.startsWith('@')) {
       const source = token.slice(1);
+      const resolvedSource = path.resolve(source);
+      const insideAllowedRoot = ALLOWED_READ_ROOTS.some(
+        (root) => resolvedSource === root || resolvedSource.startsWith(root + path.sep),
+      );
+      if (!insideAllowedRoot) {
+        die(`@ 引用的文件越界（仅允许 skill 目录 / 当前目录 / 系统临时目录）: ${source}`, 1);
+      }
       if (!fs.existsSync(source)) die(`@ 引用的文件不存在: ${source}`, 1);
       passthrough.push(fs.readFileSync(source, 'utf8').trim());
       continue;
