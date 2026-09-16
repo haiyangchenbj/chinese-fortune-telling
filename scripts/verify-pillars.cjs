@@ -99,6 +99,15 @@ function parseFlags(argv) {
 }
 
 function runNode(scriptPath, args, cwd) {
+  // 防御性遏制：只允许执行 cantian / engine 两个目录内的脚本（fail-closed）
+  const resolved = path.resolve(scriptPath);
+  const allowedRoots = [
+    path.resolve(CANTIAN_DIR) + path.sep,
+    path.resolve(ENGINE_DIR) + path.sep,
+  ];
+  if (!allowedRoots.some((root) => resolved.startsWith(root))) {
+    die(`脚本路径越界: ${resolved}`, 2);
+  }
   const result = spawnSync(process.execPath, [scriptPath, ...args], {
     cwd,
     encoding: 'utf8',
