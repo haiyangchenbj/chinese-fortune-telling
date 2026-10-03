@@ -5,7 +5,7 @@ displayName: "命理占卜 · Chinese Fortune Telling"
 description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via the bundled BaZi analysis engine, and Zi Wei Dou Shu palaces and four transformations via the bundled Zi Wei Dou Shu engine. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 大运 / 流年 (luck cycles) or about 运势 only in a chart context (paired with 八字 / 命盘 / 生肖 / 流年), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 divination reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、流年运势、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
 description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、大运流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
 description_en: Chinese fortune telling & BaZi chart reading — classical-source reasoning engine
-version: 1.2.1
+version: 1.2.2
 agent_created: true
 read_when:
   - "帮我算算命 / 算个卦 / 看下我的八字 / 批生辰八字 / 排个盘 / 看命盘"
@@ -56,6 +56,7 @@ tags: [算命, 算卦, 看八字, 批八字, 生辰八字, 排盘, 看命盘, �
 
 - **工具边界**：本 skill 只需要文件读写与本地命令执行两类权限。命令执行仅限用 Node 运行本 skill `scripts/` 目录内的三个桥接脚本（`run-cantian.cjs` / `run-engine.cjs` / 核验桥接脚本，描述名与文件名映射见 `references/engine-usage.md`）；桥接脚本对被调引擎做**白名单 + 路径遏制**（fail-closed），不会执行目录之外的任何文件。不需要网络访问；除可选的格局语料目录覆盖变量 FORTUNE_KNOWLEDGE_DIR（仅由紫微引擎脚本在启动时读取，用于指定格局笔记目录的替代路径，未设置时自动使用包内 knowledge/ 目录）外，不读取任何环境变量或凭据；`@file` 输入只允许落在 skill 目录、当前工作目录或系统临时目录内。
 - **隐私（采集前必读）**：排盘需要出生日期、准确出生时间、性别、出生地等高敏感个人信息，仅用于本地计算；本 skill 及其脚本**不联网上报、不写入任何外部服务、不做持久化存储**。用户可拒绝提供部分信息并降级到低精度模式（见下表）；采集前先说明用途并征得同意，再开始采集。
+- **合婚脚本的双参数模式（披露）**：`engine/marriage.js` 除四参数直接输入（姓名 + 八字原文）外，还支持 `node marriage.js <userId1> <userId2>` 的档案模式——从 `{SKILL_ROOT}/scripts/data/profiles/` 读取已存的档案 JSON。该目录由用户自建；脚本只读取此目录内、ID 匹配 `[A-Za-z0-9_-]{1,64}` 的 `.json` 文件，路径逃逸或读取目录外文件的尝试一律拒绝（1.2.2 起）。默认推荐四参数模式，不产生任何档案读取。
 - **语言政策**：本 skill 的判据语料与脚本文案以中文为主（术数领域中文典籍语料最完整，属领域性选择）；对用户的回复语言跟随用户提问语言，需要英文或其他语言输出时直接说明即可。
 
 ## 路径与运行时
@@ -276,6 +277,7 @@ PowerShell 下必须每轮先设 `[Console]::OutputEncoding = [System.Text.Encod
 - 不做风水空间调理（相宅相墓属四库术数类，但本 skill 不主推，也未随包附带相关脚本）。
 - `engine/marriage.js` 的评分口径只计日主关系与年支关系，月柱冲、夫妻宫合**不计入分数**，因此分数偏低是口径问题而非关系差；须结合 `references/12-hehun-liunian.md` 的分项判读，不可只报分数。（2026-09-15 起报告在评分区自动打印此口径说明。）
 - `engine/marriage.js` 已修补（2026-09-15，本地 vendored 副本）：① 地支关系表补齐六破、六害、三刑（含子卯刑、丑戌未、寅巳申、自刑）、完整三合半合，原「丑亥三合」等错误对已修正；② 新增跨柱 4×4 地支全矩阵与全柱天干五合扫描（原只查同位四柱与日干一对一，跨柱冲合完全漏报）；③ 新增配偶星提示节（男财女官的明见／仅藏／不见，只报结构不判吉凶）；④ 修复建议文案两处子串误判（原 `includes('合')` 会命中「无天干相合」「无特殊合冲」）；⑤ 输出标签改甲方／乙方（参数顺序不编码性别，不再标男方／女方）。**仍不覆盖：暗合**（藏干层合——cantian 盘内「刑冲合会」有暗合字段可查，权重低）；合中带破/刑者（寅亥、巳申、丑戌）以合力为先只报第一项。
+- `engine/marriage.js` 安全修补（2026-09-21，1.2.2 起）：`loadProfile` 对档案 ID 增加白名单校验（`[A-Za-z0-9_-]{1,64}`）+ 解析路径必须落在 `data/profiles/` 内的纵深防御，堵住未验证 `userId` 导致的路径逃逸型本地 JSON 读取；双参数档案模式已在「权限与隐私边界」明文披露。
 - `engine/jieqi.js` 只输出节气**日期**，不含交接**时刻**。要精确定位交节时刻，用 `run-cantian.cjs buildBaziFromSolar.ts` 逐时刻扫描月柱翻转点。
 - `engine/zhuanshi.js` 的建除十二神整体偏移一位、冲字段格式错误（详见 `references/11-zeri.md`）。
 - `engine/liuyao.js` 的六亲以日干而非卦宫为「我」、且无卦宫概念、世应为简化版（详见 `references/05-liuyao.md`）。

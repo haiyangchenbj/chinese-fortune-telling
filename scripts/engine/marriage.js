@@ -10,10 +10,26 @@ const path = require('path');
 const PROFILES_DIR = path.join(__dirname, '../data/profiles');
 
 /**
+ * 校验档案 ID：只允许字母/数字/下划线/连字符（1-64 位）。
+ * 防止路径逃逸（如 ../../foo）读取 PROFILES_DIR 之外的任意 JSON 文件。
+ */
+function isValidProfileId(userId) {
+  return typeof userId === 'string' && /^[A-Za-z0-9_-]{1,64}$/.test(userId);
+}
+
+/**
  * 加载用户档案
  */
 function loadProfile(userId) {
+  if (!isValidProfileId(userId)) {
+    return null;
+  }
   const filePath = path.join(PROFILES_DIR, `${userId}.json`);
+  // 纵深防御：确认解析后的真实路径仍在 PROFILES_DIR 内
+  if (path.resolve(filePath) !== path.resolve(PROFILES_DIR, `${userId}.json`)
+      || !path.resolve(filePath).startsWith(path.resolve(PROFILES_DIR) + path.sep)) {
+    return null;
+  }
   if (!fs.existsSync(filePath)) {
     return null;
   }
