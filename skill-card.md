@@ -1,6 +1,6 @@
 ## Description:
 
-Chinese fortune telling and BaZi chart reading skill that uses bundled local scripts to compute charts and classical-source references to guide agent interpretation across BaZi, Zi Wei Dou Shu, Liu Yao, Mei Hua, Qi Men, compatibility, and date selection.
+Produces Chinese astrology and divination readings, including BaZi charts, compatibility analysis, and auspicious-date suggestions, using bundled calculations and classical reference texts.
 
 This skill is ready for commercial/non-commercial use.
 
@@ -14,7 +14,7 @@ MIT-0
 
 ## Use Case:
 
-External users and agent operators use this skill to compute and interpret Chinese metaphysics charts or divination readings, verify third-party fortune-telling reports, and produce bounded markdown dossiers for BaZi, Zi Wei Dou Shu, Liu Yao, Mei Hua, Qi Men, compatibility, and auspicious-date questions.
+People seeking Chinese fortune-telling readings can use this skill to generate BaZi charts, explore relationship compatibility, consider auspicious dates, or interpret a specific divination question. Readings are interpretive and are not medical, legal, or investment advice.
 
 ### Deployment Geography for Use:
 
@@ -22,44 +22,37 @@ Global
 
 ## Known Risks and Mitigations:
 
-Risk: The skill can run bundled local Node scripts and write files, and its local file handling is broader than its stated safety boundaries.
+Risk: Birth dates, exact times, birthplaces, gender, and relationship details are sensitive personal information.
 
-Mitigation: Run it in a sandboxed workspace, review dependency installation before npm install, and restrict output paths and @file inputs away from sensitive project, profile, and agent-state files.
+Mitigation: Obtain consent before collecting details; provide only information needed for the requested reading.
 
-Risk: Fortune-telling workflows may request sensitive personal birth details such as date, time, sex, and birthplace.
+Risk: Generated Markdown reports may retain personal details locally despite the skill's no-persistence claim.
 
-Mitigation: Collect only the details needed for the requested chart, explain local-use boundaries before collection, and avoid persistent storage of the user's personal data.
+Mitigation: Review where reports are saved, protect their access, and delete them when no longer needed.
+
+Risk: An optional knowledge-directory override can point to unintended local content.
+
+Mitigation: Leave FORTUNE_KNOWLEDGE_DIR unset unless its target is vetted and non-sensitive.
 
 ## Reference(s):
 
-- [Schools and Sources](references/00-schools-and-sources.md)
-- [BaZi Geju](references/01-bazi-geju.md)
-- [BaZi Tiaohou](references/02-bazi-tiaohou.md)
-- [BaZi Mangpai](references/03-bazi-mangpai.md)
-- [Zi Wei Dou Shu](references/04-ziwei.md)
-- [Liu Yao](references/05-liuyao.md)
-- [Mei Hua Yi Shu](references/06-meihua.md)
-- [Qi Men Dun Jia](references/07-qimen.md)
-- [Da Liu Ren](references/08-daliuren.md)
-- [Qi Zheng Si Yu](references/09-qizheng-siyu.md)
-- [Western Classical Astrology](references/10-western-classical.md)
-- [Date Selection](references/11-zeri.md)
-- [Compatibility and Luck Cycles](references/12-hehun-liunian.md)
-- [Boundaries](references/99-boundaries.md)
+- [ClawHub skill release](https://clawhub.ai/haiyangchenbj/skills/chinese-fortune-telling)
+- [Schools and classical sources](artifact/references/00-schools-and-sources.md)
+- [Interpretation boundaries](artifact/references/99-boundaries.md)
 
 ## Skill Output:
 
-**Output Type(s):** [text, markdown, shell commands, configuration, guidance]
+**Output Type(s):** [Text, Markdown, Guidance]
 
-**Output Format:** [Markdown reports with inline local shell commands and structured chart-reading guidance]
+**Output Format:** [Narrative Markdown readings, optional report files, and date-selection tables]
 
 **Output Parameters:** [1D]
 
-**Other Properties Related to Output:** [May write local markdown or text report files when the user asks for captured output.]
+**Other Properties Related to Output:** [May save local Markdown reports containing personal birth or relationship details.]
 
 ## Skill Version(s):
 
-1.2.1 (source: frontmatter and server release metadata)
+1.2.2 (source: skill frontmatter and ClawHub release)
 
 ## Ethical Considerations:
 
