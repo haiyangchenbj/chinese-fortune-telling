@@ -5,7 +5,7 @@ displayName: "命理占卜 · Chinese Fortune Telling"
 description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via the bundled BaZi analysis engine, and Zi Wei Dou Shu palaces and four transformations via the bundled Zi Wei Dou Shu engine. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 大运 / 流年 (luck cycles) or about 运势 only in a chart context (paired with 八字 / 命盘 / 生肖 / 流年), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 divination reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、流年运势、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
 description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、大运流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
 description_en: Chinese fortune telling & BaZi chart reading — classical-source reasoning engine
-version: 1.2.2
+version: 1.2.3
 agent_created: true
 read_when:
   - "帮我算算命 / 算个卦 / 看下我的八字 / 批生辰八字 / 排个盘 / 看命盘"
@@ -240,7 +240,7 @@ PowerShell 下必须每轮先设 `[Console]::OutputEncoding = [System.Text.Encod
 |---|---|
 | 缺出生时间 | 降到 B 级，明说无法定时柱与核心格局，问用户是否补 |
 | 缺出生地 | 按 A 级处理，声明未做真太阳时校正；若时辰贴边界则强烈建议补经度 |
-| 出生地在城市表外 | 索要经度。拒给则用省会近似并显著标注误差量级 |
+| 出生地在城市表外 | 索要经度。拒给则按 A 级处理（不做真太阳时校正），显著标注误差量级；不用邻近地级市或省会近似 |
 | 出生日期落在夏令时窗口首尾 ±3 天 | 不自行裁决是否生效，列为待人工确认项 |
 | 真太阳时贴时辰边界 | 双盘并陈（见 Hard Rule 5） |
 | 出现在城市表外且用户只给「几点」 | 精度降级，明说时辰可能翻转 |
