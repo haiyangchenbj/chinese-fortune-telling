@@ -1,6 +1,6 @@
 ## Description:
 
-Produces Chinese astrology and divination readings, including BaZi charts, compatibility analysis, and auspicious-date suggestions, using bundled calculations and classical reference texts.
+Provides Chinese fortune-telling and chart readings grounded in classical sources, with reproducible calculations and an explicit school declaration.
 
 This skill is ready for commercial/non-commercial use.
 
@@ -10,11 +10,10 @@ This skill is ready for commercial/non-commercial use.
 
 ### License/Terms of Use:
 
-MIT-0
 
 ## Use Case:
 
-People seeking Chinese fortune-telling readings can use this skill to generate BaZi charts, explore relationship compatibility, consider auspicious dates, or interpret a specific divination question. Readings are interpretive and are not medical, legal, or investment advice.
+External users can request Chinese metaphysical readings, chart calculations, compatibility analysis, or auspicious-date selection. The skill provides source-grounded interpretations and identifies the school used.
 
 ### Deployment Geography for Use:
 
@@ -22,37 +21,37 @@ Global
 
 ## Known Risks and Mitigations:
 
-Risk: Birth dates, exact times, birthplaces, gender, and relationship details are sensitive personal information.
+Risk: Sensitive birth details may be saved in identifiable local reports despite privacy assurances.
 
-Mitigation: Obtain consent before collecting details; provide only information needed for the requested reading.
+Mitigation: Before collecting birth details, make archiving optional, obtain explicit approval, agree on the storage location, and explain how the records can be deleted.
 
-Risk: Generated Markdown reports may retain personal details locally despite the skill's no-persistence claim.
+Risk: Setup downloads npm dependencies.
 
-Mitigation: Review where reports are saved, protect their access, and delete them when no longer needed.
+Mitigation: Review the dependency sources and package changes before installing or running the bundled tools.
 
-Risk: An optional knowledge-directory override can point to unintended local content.
+Risk: Calculation defects could produce misleading readings.
 
-Mitigation: Leave FORTUNE_KNOWLEDGE_DIR unset unless its target is vetted and non-sensitive.
+Mitigation: Do not use readings to make consequential decisions; independently verify calculations when accuracy matters.
 
 ## Reference(s):
 
-- [ClawHub skill release](https://clawhub.ai/haiyangchenbj/skills/chinese-fortune-telling)
 - [Schools and classical sources](artifact/references/00-schools-and-sources.md)
 - [Interpretation boundaries](artifact/references/99-boundaries.md)
+- [Calculation engine usage](artifact/references/engine-usage.md)
 
 ## Skill Output:
 
-**Output Type(s):** [Text, Markdown, Guidance]
+**Output Type(s):** [Analysis, Markdown, Guidance]
 
-**Output Format:** [Narrative Markdown readings, optional report files, and date-selection tables]
+**Output Format:** [Markdown readings and plain-text interpretations, optionally including computed chart details and named source references]
 
 **Output Parameters:** [1D]
 
-**Other Properties Related to Output:** [May save local Markdown reports containing personal birth or relationship details.]
+**Other Properties Related to Output:** [Interpretations use non-absolute language and are not medical, legal, or investment advice.]
 
 ## Skill Version(s):
 
-1.2.2 (source: skill frontmatter and ClawHub release)
+1.2.3 (source: frontmatter)
 
 ## Ethical Considerations:
 
