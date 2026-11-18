@@ -5,7 +5,7 @@ displayName: "命理占卜 · Chinese Fortune Telling"
 description: "Chinese fortune telling (算命 / 算卦 / 看八字 / 排盘) grounded in classical source texts: a bundled rule engine computes the chart, then the agent interprets it with an explicit school declaration. Computes BaZi Four Pillars (八字 / 四柱) with true-solar-time and 1986–1991 China DST correction via scripts/cantian (buildBaziFromSolar.ts, convertToTrueSolarTime.ts), pattern and useful-god analysis via the bundled BaZi analysis engine, and Zi Wei Dou Shu palaces and four transformations via the bundled Zi Wei Dou Shu engine. Also covers Liu Yao (六爻 / 起卦), Mei Hua Yi Shu (梅花易数), Qi Men Dun Jia (奇门遁甲), Da Liu Ren (大六壬), Qi Zheng Si Yu (七政四余), classical Western astrology, and date selection (择吉 / 择日 / 黄道吉日). Use whenever the user asks to 算命 / 算卦 / 批八字 / 看生辰八字 / 排盘 / 看命盘, asks about 大运 / 流年 (luck cycles) or about 运势 only in a chart context (paired with 八字 / 命盘 / 生肖 / 流年), 合婚 / 合盘 (compatibility), 择日 / 挑日子 (picking an auspicious date), wants a 起卦 / 占卜 divination reading on one specific question, or asks whether a third-party fortune-telling app report (测测 / 生辰) is trustworthy. Also use for 术数 classic questions — 子平真诠、滴天髓、穷通宝鉴、三命通会、神峰通考、紫微斗数全书、增删卜易、卜筮正宗、梅花易数、御定奇门宝鉴、六壬大全、协纪辨方书、古典占星、Chinese metaphysics. Not for Tarot, sun-sign horoscopes, numerology, feng-shui layout, or any medical, legal, or investment recommendation. 中文摘要：以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等典籍为判据的命理推理引擎，排盘由随包脚本计算（含真太阳时与 1986–1991 夏令时校正），解读须声明流派并标注典籍出处。覆盖八字四柱、紫微斗数、六爻起卦、梅花易数、奇门遁甲、大六壬、七政四余、古典占星、合婚合盘、择日择吉。触发词：算命、算卦、看八字、批八字、生辰八字、排盘、看命盘、流年运势、大运、合婚、合盘、择日、择吉、起卦、占卜、紫微斗数、六爻、梅花易数、奇门遁甲、子平真诠、滴天髓、穷通宝鉴。不做塔罗、星座运势、生命灵数、风水布局与医疗／法律／投资建议。"
 description_zh: 算命、算卦、看八字、批生辰八字、排盘、看命盘、大运流年、紫微斗数、六爻起卦、梅花易数、奇门遁甲、合婚合盘、择日择吉——以《子平真诠》《滴天髓》《穷通宝鉴》《协纪辨方书》等经典为判据的命理推理引擎。排盘由脚本计算、可复算，解读须声明流派并标注典籍出处；不做星座运势、塔罗、生命灵数这类娱乐化内容。
 description_en: Chinese fortune telling & BaZi chart reading — classical-source reasoning engine
-version: 1.2.5
+version: "1.2.6"
 agent_created: true
 read_when:
   - "帮我算算命 / 算个卦 / 看下我的八字 / 批生辰八字 / 排个盘 / 看命盘"
@@ -55,7 +55,7 @@ tags: [算命, 算卦, 看八字, 批八字, 生辰八字, 排盘, 看命盘, �
 ## 权限与隐私边界
 
 - **工具边界**：本 skill 只需要文件读写与本地命令执行两类权限。命令执行仅限用 Node 运行本 skill `scripts/` 目录内的三个桥接脚本（`run-cantian.cjs` / `run-engine.cjs` / 核验桥接脚本，描述名与文件名映射见 `references/engine-usage.md`）；桥接脚本对被调引擎做**白名单 + 路径遏制**（fail-closed），不会执行目录之外的任何文件。不需要网络访问；除可选的格局语料目录覆盖变量 FORTUNE_KNOWLEDGE_DIR（仅由紫微引擎脚本在启动时读取，用于指定格局笔记目录的替代路径，未设置时自动使用包内 knowledge/ 目录）外，不读取任何环境变量或凭据；`@file` 输入只允许落在 skill 目录、当前工作目录或系统临时目录内。
-- **隐私（采集前必读）**：排盘需要出生日期、准确出生时间、性别、出生地等高敏感个人信息，仅用于本地计算；本 skill 及其脚本**不联网上报、不写入任何外部服务、不做持久化存储**。用户可拒绝提供部分信息并降级到低精度模式（见下表）；采集前先说明用途并征得同意，再开始采集。
+- **隐私（采集前必读）**：排盘需要出生日期、准确出生时间、性别、出生地等高敏感个人信息，仅用于本地计算；本 skill 及其脚本**不联网上报、不写入任何外部服务**。默认不做持久化存储——结果只在本次回复中呈现；**仅当用户按 Step 9 单独、明确要求归档时**才写入本地文件，届时会说明保存位置、访问范围、保留期与删除方式。用户可拒绝提供部分信息并降级到低精度模式（见下表）；采集前先说明用途并征得同意，再开始采集。
 - **合婚脚本的双参数模式（披露）**：`engine/marriage.js` 除四参数直接输入（姓名 + 八字原文）外，还支持 `node marriage.js <userId1> <userId2>` 的档案模式——从 `{SKILL_ROOT}/scripts/data/profiles/` 读取已存的档案 JSON。该目录由用户自建；脚本只读取此目录内、ID 匹配 `[A-Za-z0-9_-]{1,64}` 的 `.json` 文件，路径逃逸或读取目录外文件的尝试一律拒绝（1.2.2 起）。默认推荐四参数模式，不产生任何档案读取。
 - **语言政策**：本 skill 的判据语料与脚本文案以中文为主（术数领域中文典籍语料最完整，属领域性选择）；对用户的回复语言跟随用户提问语言，需要英文或其他语言输出时直接说明即可。
 
@@ -216,9 +216,9 @@ PowerShell 下必须每轮先设 `[Console]::OutputEncoding = [System.Text.Encod
 
 输出前逐条过：真太阳时是否校正 → 夏令时是否扣回 → 时辰是否贴边界（贴了就双盘并陈）→ 生日当天是否恰逢节气交接（是则月柱按交接时刻判定）→ 大运换运年份是否 10 年等差且与起运日期自洽 → 十神统计口径是否写清 → **强弱分与用神是否只取自 `八字分析引擎脚本`** → 每个主要术语是否有现实解释 → 每个阶段是否有可执行动作 → 是否出现必然性或产品化强断言。
 
-### Step 9 [Deterministic] 落盘
+### Step 9 [Deterministic] 落盘（默认关闭，须单独授权）
 
-用 `templates/` 下对应模板生成归档文件，命名 `命理档案·{日主}{性别}命（{出生年月日}{时辰}）.md`，同类文件（如合盘）单独成档，不并入单人档案。
+**默认不落盘**：结果只在本次回复中呈现，不写入任何文件。只有用户在本步明确、单独要求归档（区别于采集前的"允许本地计算"同意）时，才用 `templates/` 下对应模板生成归档文件，并告知保存位置、访问范围、保留期与删除方式。归档文件名使用不透明标识（如序号或用户自定代号），**不得写入出生年月日、时辰、日主＋性别等敏感信息**，例如 `命理档案-<标识>.md`；同类文件（如合盘）单独成档，不并入单人档案。用户未要求归档时跳过本步。
 
 ## Hard Rules
 
